@@ -1,9 +1,11 @@
 local unpack = table.unpack or unpack
 
----@param input string
+local input = arg[1] or "day1/input.txt"
+
+---@param path string
 ---@return integer[], integer[]
-local function read_input(input)
-	local f = io.open(input)
+local function read_input(path)
+	local f = io.open(path)
 	if not f then
 		error("failed to open file", 2)
 	end
@@ -29,7 +31,7 @@ end
 
 ---@return integer
 local function part1()
-	local left, right = read_input("input.txt")
+	local left, right = read_input(input)
 
 	local tally = 0
 	for i in ipairs(left) do
@@ -41,7 +43,7 @@ end
 
 ---@return integer
 local function part2()
-	local left, right = read_input("input.txt")
+	local left, right = read_input(input)
 
 	local tally = 0
 	local idx = 1
