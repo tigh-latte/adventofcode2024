@@ -19,12 +19,8 @@ local function read_input(path)
 		table.insert(right, r)
 	end
 
-	local function ascending(l, r)
-		return l < r
-	end
-
-	table.sort(left, ascending)
-	table.sort(right, ascending)
+	table.sort(left)
+	table.sort(right)
 
 	return left, right
 end
