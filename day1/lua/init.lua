@@ -52,7 +52,7 @@ local function part2()
 	end
 
 	local tally = 0
-	local cur = 0
+	local cur
 	local idx = 1
 	local similarity = 0
 
