@@ -51,11 +51,11 @@ local function part2()
 		return -1
 	end
 
-	local tally = 0
-	local cur
-	local idx = 1
-	local similarity = 0
 
+	local tally = 0
+	local idx = 1
+
+	local cur, similarity
 	for _, v in ipairs(left) do
 		if v ~= cur then
 			similarity = 0
