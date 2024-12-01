@@ -1,11 +1,11 @@
 local unpack = table.unpack or unpack
 
 ---@param input string
----@return integer[][]
+---@return integer[], integer[]
 local function read_input(input)
 	local f = io.open(input)
 	if not f then
-		return {}
+		error("failed to open file", 2)
 	end
 
 	local lines = f:read("*a") --[[@as string]]
@@ -13,8 +13,8 @@ local function read_input(input)
 
 	local left, right = {}, {}
 	for l, r in lines:gmatch("(%d+)%s+(%d+)\n") do
-		table.insert(left, tonumber(l))
-		table.insert(right, tonumber(r))
+		table.insert(left, l)
+		table.insert(right, r)
 	end
 
 	local function ascending(l, r)
@@ -24,16 +24,12 @@ local function read_input(input)
 	table.sort(left, ascending)
 	table.sort(right, ascending)
 
-	return { left, right }
+	return left, right
 end
 
 ---@return integer
 local function part1()
-	local left, right = unpack(read_input("input.txt"))
-	if left == nil or right == nil then
-		print("failed")
-		return -1
-	end
+	local left, right = read_input("input.txt")
 
 	local tally = 0
 	for i in ipairs(left) do
@@ -45,12 +41,7 @@ end
 
 ---@return integer
 local function part2()
-	local left, right = unpack(read_input("input.txt"))
-	if left == nil or right == nil then
-		print("failed")
-		return -1
-	end
-
+	local left, right = read_input("input.txt")
 
 	local tally = 0
 	local idx = 1
@@ -76,5 +67,16 @@ local function part2()
 	return tally
 end
 
-print("distances", part1())
-print("similarity", part2())
+local ok, res = pcall(part1)
+if not ok then
+	print("failed to calcuate distances", res)
+else
+	print("distances", res)
+end
+
+ok, res = pcall(part2)
+if not ok then
+	print("failed to calcuate similarity", res)
+else
+	print("similarity", res)
+end
