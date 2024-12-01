@@ -57,9 +57,6 @@ local function part2()
 	local similarity = 0
 
 	for _, v in ipairs(left) do
-		if idx > #left then
-			break
-		end
 		if v ~= cur then
 			similarity = 0
 			cur = v
