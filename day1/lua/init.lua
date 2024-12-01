@@ -1,4 +1,4 @@
-local unpack = table.unpack or unpack
+#!/usr/bin/env lua5.1
 
 local input = arg[1] or "day1/input.txt"
 

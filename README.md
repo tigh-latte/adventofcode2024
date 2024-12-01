@@ -3,5 +3,5 @@
 Gonna do it in Lua this year.
 
 ```shell
-> lua5.1 dayN/lua/init.lua
+> ./dayN/lua/init.lua
 ```
