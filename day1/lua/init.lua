@@ -19,15 +19,14 @@ local function read_input(path)
 		table.insert(right, r)
 	end
 
-	table.sort(left)
-	table.sort(right)
-
 	return left, right
 end
 
 ---@return integer
 local function part1()
 	local left, right = read_input(input)
+	table.sort(left)
+	table.sort(right)
 
 	local tally = 0
 	for i in ipairs(left) do
@@ -40,26 +39,14 @@ end
 ---@return integer
 local function part2()
 	local left, right = read_input(input)
+	local occurences = {}
+	for _, v in ipairs(right) do
+		occurences[v] = (occurences[v] or 0) + 1
+	end
 
 	local tally = 0
-	local idx = 1
-
-	local cur, similarity
 	for _, v in ipairs(left) do
-		if v ~= cur then
-			similarity = 0
-			cur = v
-
-			while right[idx] and cur > right[idx] do
-				idx = idx + 1
-			end
-
-			while v == right[idx] do
-				similarity = similarity + 1
-				idx = idx + 1
-			end
-		end
-		tally = tally + (similarity * cur)
+		tally = tally + v * (occurences[v] or 0)
 	end
 
 	return tally
