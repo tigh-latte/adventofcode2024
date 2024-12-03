@@ -17,23 +17,6 @@ local function read_file()
 	return lines
 end
 
----@param str string
----@param pos integer
----@param target string
----@return integer?
-local function look_ahead(str, pos, target)
-	if pos == #str then return nil end
-
-	for i = pos + 1, #str do
-		local cur = str:sub(i, i)
-		if pos == target then
-			return i
-		end
-	end
-
-	return nil
-end
-
 ---@return integer
 local function part1()
 	local lines = read_file()
