@@ -65,8 +65,6 @@ end
 ---@param y integer
 ---@return boolean
 local function find_x_mas(lines, direction, x, y)
-	if x == 1 or y == 1 or x == #lines or y == #lines[x] then return false end
-
 	if direction == "nw" then
 		return lines[x - 1][y - 1] == "M" and lines[x + 1][y + 1] == "S"
 	elseif direction == "ne" then
@@ -101,9 +99,9 @@ end
 local function part2()
 	local lines = read_file()
 	local tally = 0
-	for i = 1, #lines do
+	for i = 2, #lines - 1 do
 		local chars = lines[i]
-		for j = 1, #chars do
+		for j = 2, #chars - 1 do
 			if chars[j] == "A" then
 				local total_found = 0
 				for _, dir in ipairs({ "nw", "ne", "sw", "se" }) do
