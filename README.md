@@ -3,5 +3,5 @@
 Gonna do it in Lua this year.
 
 ```shell
-> ./dayN/lua/init.lua
+> for c in ./day*/main.lua; do echo ======== $c ==========; ./$c; done
 ```

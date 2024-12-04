@@ -56,12 +56,12 @@ local ok, res = pcall(part1)
 if not ok then
 	print("failed to calcuate distances", res)
 else
-	print("distances", res)
+	print("part 1:", res)
 end
 
 ok, res = pcall(part2)
 if not ok then
 	print("failed to calcuate similarity", res)
 else
-	print("similarity", res)
+	print("part 2:", res)
 end
