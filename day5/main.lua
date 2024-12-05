@@ -106,6 +106,59 @@ local function part1()
 	return tally
 end
 
+local function part2()
+	local rules, updates = read_file()
+
+	local tally = 0
+
+	local incorrect = {}
+
+	for _, update in ipairs(updates) do
+		local all_valid = true
+
+		for i = 1, #update do
+			local after = { unpack(update, i + 1, #update) }
+			local before = { unpack(update, 1, i - 1) }
+
+			local page = update[i]
+
+			print("before", debug_list(before))
+
+			local found = true
+
+			if after and #after > 0 then
+				for _, a in ipairs(after) do
+					local rule = page .. "|" .. a
+					if not rules[rule] then
+						found = false
+						break
+					end
+				end
+			end
+			if before and #before > 0 then
+				for _, b in ipairs(before) do
+					local rule = b .. "|" .. page
+					if not rules[rule] then
+						found = false
+						break
+					end
+				end
+			end
+
+			if not found then
+				all_valid = false
+				break
+			end
+		end
+		if not all_valid then
+			table.insert(incorrect, update)
+		end
+	end
+
+	for _, item in ipairs(incorrect) do
+		print(debug_list(item))
+	end
+end
 
 print("part 1: ", part1())
--- print("part 2: ", part2())
+print("part 2: ", part2())
