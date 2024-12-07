@@ -26,30 +26,31 @@ local function read_file()
 	return equations
 end
 
----@param n integer
----@param ... string
-local function iter_combinations(n, ...)
+local function iter_ops(n, ...)
 	local operators = { ... }
-	local result = {}
-	local function combine(current, remaining)
-		if remaining == 0 then
-			table.insert(result, current)
+	local stack = { { index = 1, combination = {} } }
+
+	---@return string[]?
+	return function()
+		if #stack == 0 then
 			return
 		end
 
-		for _, value in ipairs(operators) do
-			local next = { unpack(current) }
-			table.insert(next, value)
-			combine(next, remaining - 1)
+		while true do
+			local state = table.remove(stack)
+			local current = state.combination
+			local idx = state.index
+
+			if #current == n then
+				return current
+			end
+
+			for i = #operators, 1, -1 do
+				local comb = { unpack(current) }
+				table.insert(comb, operators[i])
+				table.insert(stack, { index = idx + 1, combination = comb })
+			end
 		end
-	end
-
-	combine({}, n)
-
-	local i = 0
-	return function()
-		i = i + 1
-		return result[i]
 	end
 end
 
@@ -62,7 +63,7 @@ local function part1()
 		local answer = eq[1]
 		local operands = { unpack(eq, 2) }
 
-		for comb in iter_combinations(#operands - 1, "+", "*") do
+		for comb in iter_ops(#operands - 1, "+", "*") do
 			local result = operands[1]
 			for i = 2, #operands do
 				result = ({
@@ -90,7 +91,7 @@ local function part2()
 		local answer = eq[1]
 		local operands = { unpack(eq, 2) }
 
-		for comb in iter_combinations(#operands - 1, "+", "*", "|") do
+		for comb in iter_ops(#operands - 1, "+", "*", "|") do
 			local result = operands[1]
 			local ops = { result }
 			for i = 2, #operands do
