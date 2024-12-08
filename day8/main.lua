@@ -53,7 +53,6 @@ local function nodes(grid)
 		for j, col in ipairs(row) do
 			if col == "." then goto continue end
 			table.insert(n[col], { i, j })
-			print(col, n[col][#n[col]][1], n[col][#n[col]][2])
 			::continue::
 		end
 	end
@@ -145,7 +144,7 @@ local function part2()
 				local rdiff = l[1] - r[1]
 				local cdiff = l[2] - r[2]
 
-				local new_nodes = { { l[1] + rdiff, l[2] + cdiff } }
+				local new_nodes = { { l[1], l[2] } }
 				while true do
 					local current = new_nodes[#new_nodes]
 
@@ -160,6 +159,7 @@ local function part2()
 					table.insert(new_nodes, next)
 				end
 
+				table.insert(new_nodes, { r[1], r[2] })
 				while true do
 					local current = new_nodes[#new_nodes]
 
@@ -190,7 +190,6 @@ local function part2()
 			end
 		end
 	end
-
 
 	return tally
 end
