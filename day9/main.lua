@@ -54,8 +54,6 @@ end
 local function part2()
 	local fs = read_file()
 
-	local is_file = true
-	local id = 0
 
 	local tally = 0
 	local pos = #fs
