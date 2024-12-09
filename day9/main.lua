@@ -56,11 +56,9 @@ local function part2()
 
 	local tally = 0
 	local pos = #fs
-	while true do
-		if not fs[pos] then break end
+	while fs[pos] do
 		while fs[pos] and fs[pos] == "." do pos = pos - 1 end
-		local n_end = pos
-		local n_start = pos
+		local n_start, n_end = pos, pos
 		while fs[n_start] and fs[n_start] == fs[n_end] do n_start = n_start - 1 end
 
 		local needed_slots = n_end - n_start
