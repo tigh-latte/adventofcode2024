@@ -54,7 +54,6 @@ end
 local function part2()
 	local fs = read_file()
 
-
 	local tally = 0
 	local pos = #fs
 	while true do
@@ -68,15 +67,14 @@ local function part2()
 
 		for i = 1, pos do
 			if fs[i] and fs[i] == "." then
-				local can_fit = true
+				local count = 0
 				for j = i, i + needed_slots - 1 do
 					if not fs[j] then break end
-					if fs[j] ~= "." then
-						can_fit = false
-						break
-					end
+					if fs[j] ~= "." then break end
+					count = count + 1
+					if count == needed_slots then break end
 				end
-				if can_fit then
+				if count == needed_slots then
 					for j = 0, needed_slots - 1 do
 						local l, r = fs[i + j], fs[n_end - j]
 						fs[n_end - j], fs[i + j] = l, r
