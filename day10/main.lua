@@ -2,28 +2,36 @@
 
 local input = arg[1] or "./day10/input.txt"
 
----@return integer[][]
+---@return integer[][], integer[][]
 local function read_file()
 	local f = io.open(input)
 	if not f then error("failed to open file", 2) end
 
 	local rows = {}
+	local heads = {}
 
+	local i = 1
 	for line in f:lines() do
+		local j = 1
 		line = line --[[@as string]]
 		local cols = {}
 		for char in line:gmatch "." do
-			table.insert(cols, tonumber(char))
+			local value = tonumber(char)
+			if not value then error("shite", 2) end
+			table.insert(cols, value)
+			if value == 0 then table.insert(heads, { i, j }) end
+			j = j + 1
 		end
 
 		table.insert(rows, cols)
+		i = i + 1
 	end
 
 	return setmetatable(rows, {
 		__index = function(_, _)
 			return {}
 		end,
-	})
+	}), heads
 end
 
 ---@param trials integer[][]
@@ -77,9 +85,9 @@ local function traverse(map, x, y, has_visited)
 	return score
 end
 
+---@return integer
 local function part1()
-	local map = read_file()
-
+	local map, start_points = read_file()
 	local visited = {}
 	local function has_visited(x, y)
 		local coord_key = x .. "," .. y
@@ -89,7 +97,6 @@ local function part1()
 	end
 
 	local tally = 0
-	local start_points = get_start_points(map)
 	for _, point in ipairs(start_points) do
 		visited = {}
 		local i, j = unpack(point)
@@ -100,19 +107,15 @@ local function part1()
 	return tally
 end
 
+---@return integer
 local function part2()
-	local map = read_file()
-
-	local function has_visited() return false end
-
+	local map, start_points = read_file()
 	local tally = 0
-	local start_points = get_start_points(map)
 	for _, point in ipairs(start_points) do
 		local i, j = unpack(point)
-		local score = traverse(map, i, j, has_visited)
+		local score = traverse(map, i, j, function() return false end)
 		tally = tally + score
 	end
-
 	return tally
 end
 
