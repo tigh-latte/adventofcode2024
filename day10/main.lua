@@ -77,7 +77,6 @@ local function traverse(map, x, y, has_visited)
 	return score
 end
 
-
 local function part1()
 	local map = read_file()
 
@@ -92,6 +91,7 @@ local function part1()
 	local tally = 0
 	local start_points = get_start_points(map)
 	for _, point in ipairs(start_points) do
+		visited = {}
 		local i, j = unpack(point)
 		local score = traverse(map, i, j, has_visited)
 		tally = tally + score
@@ -109,7 +109,7 @@ local function part2()
 	local start_points = get_start_points(map)
 	for _, point in ipairs(start_points) do
 		local i, j = unpack(point)
-		local score = traverse(map, i, j, function(x, y) return false end)
+		local score = traverse(map, i, j, has_visited)
 		tally = tally + score
 	end
 
