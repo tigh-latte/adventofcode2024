@@ -1,5 +1,7 @@
 #!/usr/bin/env luajit
 
+table.unpack = table.unpack or unpack
+
 local input = arg[1] or "2025/day03/input.txt"
 
 ---@param path string
@@ -22,7 +24,7 @@ local function read_input(path)
 		end
 	end
 
-	if banks[#banks] == 0 then
+	if #banks[#banks] == 0 then
 		table.remove(banks)
 	end
 
@@ -54,4 +56,46 @@ local function part1()
 	print(total)
 end
 
+local function part2()
+	local banks = read_input(input)
+
+	local sum = 0
+	local N = 12
+
+	for _, bank in ipairs(banks) do
+		local joltage = { bank[1] }
+		for i = 2, #bank do
+			local power = bank[i]
+			local rest = { table.unpack(bank, i) }
+			if #joltage + #rest == N then
+				for _, r in ipairs(rest) do
+					table.insert(joltage, r)
+					break
+				end
+			else
+				local pos = -1
+				for j = #joltage, 1, -1 do
+					local jolt = joltage[j]
+					if j + #rest == N then
+						break
+					end
+					if power > jolt then
+						pos = j
+					end
+				end
+				if pos ~= -1 then
+					joltage = { table.unpack(joltage, 1, pos - 1) }
+					table.insert(joltage, power)
+				elseif #joltage < N then
+					table.insert(joltage, power)
+				end
+			end
+		end
+		sum = sum + tonumber(table.concat(joltage))
+	end
+
+	print(string.format("%18.0f", sum))
+end
+
 part1()
+part2()
