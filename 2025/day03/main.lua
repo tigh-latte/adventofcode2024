@@ -31,36 +31,10 @@ local function read_input(path)
 	return banks
 end
 
-local function part1()
-	local banks = read_input(input)
-
-	local total = 0
-	for _, bank in ipairs(banks) do
-		local fhigh = 0
-		local curhigh = 0
-		for i = 1, #bank - 1 do
-			local battery = bank[i]
-			if battery > fhigh then
-				fhigh = battery
-				local ten = fhigh * 10
-				for j = i + 1, #bank do
-					local voltage = ten + bank[j]
-					curhigh = voltage > curhigh and voltage or curhigh
-				end
-			end
-		end
-
-		total = total + curhigh
-	end
-
-	print(total)
-end
-
-local function part2()
+local function calc(N)
 	local banks = read_input(input)
 
 	local sum = 0
-	local N = 12
 
 	for _, bank in ipairs(banks) do
 		local joltage = { bank[1] }
@@ -94,7 +68,15 @@ local function part2()
 		sum = sum + tonumber(table.concat(joltage))
 	end
 
-	print(string.format("%18.0f", sum))
+	print(string.format("%.0f", sum))
+end
+
+local function part1()
+	calc(2)
+end
+
+local function part2()
+	calc(12)
 end
 
 part1()
